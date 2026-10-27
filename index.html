@@ -44,6 +44,11 @@ body{font-family:ui-sans-serif,-apple-system,"Segoe UI","Helvetica Neue",Arial,s
 .arc{position:absolute;pointer-events:none;stroke:#fff;stroke-opacity:.45;fill:none;stroke-width:1;stroke-dasharray:2400;stroke-dashoffset:2400;animation:dr 4s .6s ease forwards}
 @keyframes dr{to{stroke-dashoffset:0}}
 @media (prefers-reduced-motion:reduce){.rv,.mk>span{transition:none;opacity:1;transform:none}.card{animation:none}.arc{animation:none;stroke-dashoffset:0}}
+
+.project-source{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:12px 18px;margin-top:24px;border:1px solid var(--sand);border-radius:6px;color:var(--cream);font-size:14px;text-decoration:none;transition:background .2s,color .2s}
+.project-source:hover{background:var(--sand);color:var(--ink)}
+.project-source:focus-visible{outline:2px solid var(--sand);outline-offset:4px}
+.project-source:active{opacity:.8}
 </style>
 </head>
 <body>
@@ -97,7 +102,7 @@ body{font-family:ui-sans-serif,-apple-system,"Segoe UI","Helvetica Neue",Arial,s
     </div>
     <div class="flex flex-wrap items-center gap-3 mb-12 rv" id="filters" role="tablist" aria-label="Filter projects">
       <button class="fbtn on" data-f="all">All</button><button class="fbtn" data-f="python">Python</button><button class="fbtn" data-f="sql">SQL</button><button class="fbtn" data-f="excel">Excel</button><button class="fbtn" data-f="powerbi">Power BI</button>
-      <span class="serif text-2xl ml-auto" id="count">4 / 4</span>
+      <span class="serif text-2xl ml-auto" id="count">5 / 5</span>
     </div>
     <div id="projects" class="border-b" style="border-color:rgba(236,230,220,.18)"></div>
   </div>
@@ -155,6 +160,7 @@ body{font-family:ui-sans-serif,-apple-system,"Segoe UI","Helvetica Neue",Arial,s
 
 <script>
 const P=[
+{"cat": "python sql", "eye": "Featured / E-commerce intelligence", "t": "Maven Fuzzy Factory - E-Commerce Analytics", "tags": ["SQL", "Python", "DuckDB", "dbt", "Plotly"], "c": "A fictional online teddy-bear retailer needs a connected view of sales, acquisition, product economics and customer behavior. The source contains 472,871 website sessions, 32,313 orders and 40,025 sold items across six tables.", "f": "Sessions, pageviews, orders, items and refunds have different grains. Joining them directly can inflate revenue; partial periods and incomplete cohort follow-up also make comparisons misleading.", "a": "AI-assisted implementation using SQL, Python, DuckDB and dbt, with refunds aggregated before joins. Six analytical marts support interactive web dashboards for sales, campaigns, products, checkout funnels, refunds and purchase cohorts.", "i": "Ten workspace pages provide filterable exploration, order search and CSV exports. The package includes 20 dbt data tests, 18 Python tests and 168 offline browser checks. This is a historical educational case study, not a claim of measured business uplift.", "repo": "https://github.com/yazeenworks/-E-Commerce-Analytics"},
 {cat:'python',eye:'Employment intelligence',t:'Global Employment Market Analyzer',tags:['Python','Pandas','NumPy','Streamlit','REST APIs'],
 c:'Job-market data is huge and changes daily. A job seeker or analyst looking at one country or one title sees only a small part of it. I wanted a single place to see how demand moves across roles and borders.',
 f:'Each analysis cycle pulled in about 50,000 raw job records across 700 job categories and 27 countries in inconsistent formats. Without cleaning and standardizing, trend charts would be misleading.',
@@ -179,15 +185,16 @@ const S=[['Data Analysis','SQL, Python, Pandas, NumPy, Data Cleaning, Data Valid
 ['Visualization & BI','Power BI, Excel, Matplotlib, Seaborn, Recharts, Streamlit, Dashboard Design'],
 ['SQL Expertise','CTEs, Joins, Window Functions, CASE Statements, Aggregations, SQLite'],
 ['Tools','Jupyter Notebook, Git, GitHub, REST APIs, VS Code']];
-const R=['I.','II.','III.','IV.'];
+const R=['I.','II.','III.','IV.','V.'];
 document.getElementById('projects').innerHTML=P.map((p,k)=>`
 <article class="proj py-14 grid md:grid-cols-12 gap-8 rv" data-cat="${p.cat}">
   <div class="md:col-span-4"><p class="lbl" style="color:var(--sand)">${R[k]} &nbsp;/&nbsp; ${p.eye}</p>
     <h3 class="serif text-[clamp(2rem,3.6vw,3.3rem)] mt-5">${p.t}</h3>
-    <div class="flex flex-wrap gap-2 mt-7">${p.tags.map(x=>`<span class="chip">${x}</span>`).join('')}</div></div>
+    <div class="flex flex-wrap gap-2 mt-7">${p.tags.map(x=>`<span class="chip">${x}</span>`).join('')}</div>
+    ${p.repo ? `<a class="project-source" href="${p.repo}" target="_blank" rel="noopener noreferrer" aria-label="View source code for Maven Fuzzy Factory on GitHub">View source on GitHub <span aria-hidden="true">↗</span></a><p class="lbl mut mt-4">AI-assisted implementation · Historical educational data</p>` : ''}</div>
   <div class="md:col-span-8 grid sm:grid-cols-2 pl-px">
     <div class="cell"><h4>Context</h4><p>${p.c}</p></div><div class="cell"><h4>Friction</h4><p>${p.f}</p></div>
-    <div class="cell"><h4>Analytical approach</h4><p>${p.a}</p></div><div class="cell"><h4>Business impact</h4><p style="opacity:1">${p.i}</p></div>
+    <div class="cell"><h4>Analytical approach</h4><p>${p.a}</p></div><div class="cell"><h4>${p.repo ? "Deliverables & validation" : "Business impact"}</h4><p style="opacity:1">${p.i}</p></div>
   </div></article>`).join('');
 document.getElementById('skills').innerHTML=S.map((s,k)=>`<div class="cell !p-9"><p class="serif text-3xl">${s[0]}</p><p class="mt-5 text-[16px] leading-relaxed opacity-70">${s[1]}</p></div>`).join('');
 
